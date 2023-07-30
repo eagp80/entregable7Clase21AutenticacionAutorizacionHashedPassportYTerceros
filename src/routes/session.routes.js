@@ -108,7 +108,8 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
         if(!updateUser){
           return res.json({message:"Problemas actualizando contraseña"});
         }
-        return res.render("login");
+        // return res.render("login");
+        return res.redirect(`../login`);
       } catch (error) {
         console.log("🚀 ~ file: session.routes.js:113 ~ SessionRoutes ~ this.router.post ~ error:", error)        
       }
