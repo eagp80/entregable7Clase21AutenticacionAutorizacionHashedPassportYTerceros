@@ -21,38 +21,28 @@
         Para la paginación desde mongo atlas con limit, sort y query (método GET):
         http://localhost:8000/api/v1/views/products?page=1&limit=3&sort={"code":1}&query={"description": "Desde fromulario con socket"}
 ## Consigna. Se está requiriendo lo siguiente:
-- Deberá contar con todas las vistas realizadas en el hands on lab, así también como las rutas de router para procesar el registro y el login. ((Hecho)).
+- Con base en el login de nuestro entregable anterior, refactorizar para incluir los nuevos conceptos. ((Hecho)).
 
-- Una vez completado el login, realizar la redirección directamente a la vista de productos.((Hecho)).
+- Se deberá contar con un hasheo de contraseña utilizando bcrypt.((Hecho)).
 
-- Agregar a la vista de productos un mensaje de bienvenida con los datos del usuario.((Hecho)).
+- Se deberá contar con una implementación de passport, tanto para register como para login.((Hecho)).
 
-- Agregar un sistema de roles, de manera que si colocamos en el login como correo adminCoder@coder.com, y la contraseña adminCod3r123, el usuario de la sesión además tenga un campo.((Hecho)).
+- Implementar el método de autenticación de GitHub a la vista de login. ((Hecho)).
 
-- Todos los usuarios que no sean admin deberán contar con un rol “usuario”. ((Hecho)).
 
-- Implementar botón de “logout” para destruir la sesión y redirigir a la vista de login.((Hecho)).
 ### TESTEO:
-- Al cargar el proyecto, éste deberá comenzar en la pantalla de login.((Hecho)).
 
-- Al no tener un usuario, primero se creará un usuario, para esto, la pantalla de login deberá tener un link de redirección “Regístrate” .((Hecho)).
+- Al cargar el proyecto, éste deberá comenzar en la pantalla de login. ((Hecho)).
 
-- El proceso de registro deberá guardar en la base de datos al usuario.((Hecho)).
+- Al no tener un usuario registrado aún, se procederá a hacer un registro, por lo que la pantalla de login debe tener un link de “regístrate”, el cual nos redireccione a la pantalla de registro. ((Hecho)).
 
-- Se regresará al proceso de login y se colocarán las credenciales de manera incorrecta, esto para probar que no se pueda avanzar a la siguiente pantalla.((Hecho)).
+- Al registrarme con los datos solicitados, se revisará la contraseña guardada en la base de datos, cuidando que ésta esté correctamente hasheada. ((Hecho)).
 
-- Posteriormente, se colocarán las credenciales de manera correcta, esto para corroborar que se cree una sesión correctamente y que se haga una redirección a la vista de productos.((Hecho)).
+- Se realizará el proceso de login con las mismas credenciales con las que se registró el usuario, corroborando que el login funcione correctamente y redirija a la pantalla principal. ((Hecho)).
 
-- La vista de productos tendrá en una parte de arriba de la página el mensaje “Bienvenido” seguido de los datos del usuario que se haya logueado (NO mostrar password). ((Hecho)).
+- Además, la pantalla de login deberá contar con un botón “entrar con Github” el cual al hacer click nos permita entrar directamente a la página con los datos obtenidos de Github. ((Hecho)).
 
-- Es importante que se visualice el “rol” para ver que aparezca “usuario” o “user”.((Hecho)).
-
-- Se presionará el botón de logout y se destruirá la sesión, notando cómo nos redirige a login.((Hecho)).
-
-- Se ingresarán las credenciales específicas de admin indicadas en las diapositivas, el login debe redirigir correctamente y mostrar en los datos del rol: “admin” haciendo referencia a la correcta gestión de roles.((Hecho)). 
-
-- Se revisará que el admin NO viva en base de datos, sino que sea una validación que se haga de manera interna en el código. ((Hecho)).
-
+- Se corroborará en la base de datos que el nuevo usuario “creado con Github” cuente con un password vacío. ((Hecho)).
 
 ### Formato
 
