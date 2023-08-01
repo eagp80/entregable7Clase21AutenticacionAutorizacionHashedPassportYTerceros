@@ -57,10 +57,12 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
             .send({status: "error",  error: "Incorrect password" });
         };
     
-        req.session.user = {
+        const a = {
           ...findUser, // estraigo todo propiedad por propiedad
           password: "***", //borro password en la session no en la base de datos
         };
+        req.session.user=a._doc; //se hace asi porque los tres puntitos traen un monton de info incluyendo objeto _doc donde viene el user
+      
 
         return res.redirect(`../views/products`)//************ */
     
@@ -95,6 +97,8 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
 
         console.log("🚀 ~ file: session.routes.js:96 ~ SessionRoutes ~ this.router.post ~ newUser:", newUser);       
         req.session.user = { first_name, last_name,email, age };
+        console.log("req.session al entrar con formulario a register");        
+        console.log(req.session);
         return res.render("login");// OJO OJO OJO 
       } catch (error) {
       console.log("🚀 ~ file: session.routes.js:99 ~ SessionRoutes ~ this.router.post ~ error:", error);

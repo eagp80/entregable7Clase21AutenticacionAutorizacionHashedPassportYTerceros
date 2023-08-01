@@ -149,12 +149,11 @@ class ViewsMongoRoutes {
             url1 = `http://localhost:${PORT}/api/${API_VERSION}/views/products?limit=${limit}&page=${prevPage}&sort=${sort}&query=${qStringURI}`
             url2 = `http://localhost:${PORT}/api/${API_VERSION}/views/products?limit=${limit}&page=${nextPage}&sort=${sort}&query=${qStringURI}`
         }
-      console.log("de donde vendra esta sesion");
-      console.log(req.session);
-      if (req.session.user?._doc?.email||req.session.user.email === "adminCoder@coder.com") {
+
+      if (req.session.user?.email === "adminCoder@coder.com") {
         console.log(req.session);
-        req.session.user._doc.rol="admin";
-      }else{ req.session.user = "user" }
+        req.session.user.rol="admin";
+      }else{ req.session.user.rol = "user" }
 
         res.render("products", {
           rol: req.session?.user?.rol,
