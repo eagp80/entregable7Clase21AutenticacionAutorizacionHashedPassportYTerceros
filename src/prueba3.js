@@ -1,0 +1,1 @@
+if(null){console.log(5);}else{console.log(12);}

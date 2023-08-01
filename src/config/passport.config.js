@@ -17,8 +17,13 @@ const initializePassport = () => {
       async (accessToken, refreshToken, profile, done) => {
         try {
           console.log("PROFILE INFO ******", profile);
+          if(profile._json?.email===null){profile._json.email=profile._json?.url}
+          //validar si email es null cambiar email:login o email o url o html_url 
           let user = await userModel.findOne({ email: profile._json?.email });
+          console.log("🚀 ~ file: passport.config.js:21 ~ user:", user)
+          
           if (!user) {
+            console.log("entro a addNewUser");
             let addNewUser = {
               first_name: profile._json.name,
               last_name: "",
@@ -30,6 +35,8 @@ const initializePassport = () => {
             done(null, newUser);
           } else {
             // ya existia el usuario
+            console.log("entro a ya existia usuario");
+
             done(null, user);
           }
         } catch (error) {
