@@ -3,6 +3,7 @@ import userModel from "../dao/models/user.model.js";
 import session from "express-session";
 import { API_VERSION } from "../config/config.js";
 import { createHashValue, isValidPasswd } from "../utils/encrypt.js";
+import passport from "passport";
 //********* /api/v1/session/
 
 class SessionRoutes {//no es un Router pero adentro tiene uno
@@ -16,8 +17,10 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
 
   initSessionRoutes() {//  api/v1/session/logout
     this.router.get(`${this.path}/logout`, async (req, res) =>{
+      
       try{
         //algo
+          console.log("haciendo logout");
           req.session.destroy((err) => {
           if (!err) return res.redirect(`../login`);
           return res.send({ message: `logout Error`, body: err });
@@ -73,8 +76,9 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
 
     });
 
-    this.router.post(`${this.path}/register`, async (req, res) =>{
+    this.router.post(`${this.path}/register`, async (req,res)=>{
       try{
+        
         //algo
         console.log("BODY ****", req.body);
         const { first_name, last_name, email, age, password } = req.body;
@@ -89,13 +93,32 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
         };
         const newUser = await userModel.create(userAdd);
 
-        console.log("🚀 ~ file: session.routes.js:89 ~ SessionRoutes ~ this.router.post ~ newUser:", newUser);       
+        console.log("🚀 ~ file: session.routes.js:96 ~ SessionRoutes ~ this.router.post ~ newUser:", newUser);       
         req.session.user = { first_name, last_name,email, age };
         return res.render("login");// OJO OJO OJO 
       } catch (error) {
-      console.log("🚀 ~ file: session.routes.js:95 ~ SessionRoutes ~ this.router.post ~ error:", error);
+      console.log("🚀 ~ file: session.routes.js:99 ~ SessionRoutes ~ this.router.post ~ error:", error);
       }
+    })
+
+
+
+    this.router.get(`${this.path}/github`,passport.authenticate("github",{scope:['user:email']}), async (req, res) =>{
+      
     });
+
+    this.router.get(`${this.path}/githubcallback`, passport.authenticate('github',{failureRedirect:'/api/v1/login'}), async (req,res)=>{
+      req.session.user=req.user;
+      console.log("entre a github/callback");
+      console.log(req.user);
+      res.redirect(`../views/products`);
+    })
+
+  
+    this.router.get(`${this.path}/failgithub`,async (req,res)=>{
+      console.log("Failed strategy");
+      res.send({error:"Failed"});
+    })
 
     this.router.post(`${this.path}/recover-psw`,async (req,res)=>{
       try {
