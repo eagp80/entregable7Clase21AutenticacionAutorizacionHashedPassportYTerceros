@@ -88,11 +88,11 @@
 
 # Rutas carritos con Mongo:
 
-- Ver la imagen en archivo raíz.
+- Ver la imagen en carpeta raíz.
 
 # Rutas productos con Mongo:
 
--  Ver la imagen en archivo raíz.
+-  Ver la imagen en carpeta raíz.
 
 # Rutas de  views (carritos y productos) con Mongo: 
 
