@@ -78,31 +78,37 @@ class SessionRoutes {//no es un Router pero adentro tiene uno
 
     });
 
-    this.router.post(`${this.path}/register`, async (req,res)=>{
+    this.router.post(`${this.path}/register`, passport.authenticate("registerpassport", {failureRedirect:'/failregister'}), async (req,res)=>{
       try{
         
         //algo
         console.log("BODY ****", req.body);
-        const { first_name, last_name, email, age, password } = req.body;
+        // const { first_name, last_name, email, age, password } = req.body;
         
-        const pswHashed = await createHashValue(password);
-        const userAdd = {
-          first_name,
-          last_name,
-          email,
-          age,
-          password: pswHashed,
-        };
-        const newUser = await userModel.create(userAdd);
+        // const pswHashed = await createHashValue(password);
+        // const userAdd = {
+        //   first_name,
+        //   last_name,
+        //   email,
+        //   age,
+        //   password: pswHashed,
+        // };
+        // const newUser = await userModel.create(userAdd);
 
-        console.log("🚀 ~ file: session.routes.js:96 ~ SessionRoutes ~ this.router.post ~ newUser:", newUser);       
-        req.session.user = { first_name, last_name,email, age };
-        console.log("req.session al entrar con formulario a register");        
-        console.log(req.session);
-        return res.render("login");// OJO OJO OJO 
+        // console.log("🚀 ~ file: session.routes.js:96 ~ SessionRoutes ~ this.router.post ~ newUser:", newUser);       
+        res.send({status: "success", message: "User register"})
+        // req.session.user = { first_name, last_name,email, age };
+        // console.log("req.session al entrar con formulario a register");        
+        // console.log(req.session);
+        // return res.render("login");// OJO OJO OJO 
       } catch (error) {
-      console.log("🚀 ~ file: session.routes.js:99 ~ SessionRoutes ~ this.router.post ~ error:", error);
+      console.log("🚀 ~ file: session.routes.js:105 ~ SessionRoutes ~ this.router.post ~ error:", error);
       }
+    })
+
+    this.router.get('/failregister', async (req,res)=>{
+      console.log("Failed register with passport");
+      res.send({error:"Failed register with passport"});
     })
 
 

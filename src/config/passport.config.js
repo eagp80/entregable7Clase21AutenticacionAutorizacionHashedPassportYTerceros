@@ -1,11 +1,42 @@
 // import { use, serializeUser, deserializeUser } from "passport";
 import passport from "passport";
-
+import local from "passport-local";
 import GithubStrategy from "passport-github2";
 import userModel  from "../dao/models/user.model.js";
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET} from "./config.js"
+import { createHashValue, isValidPasswd } from "../utils/encrypt.js";
+
+const LocalStrategy =local.Strategy;
 
 const initializePassport = () => {
+
+  passport.use('registerpassport', new LocalStrategy(
+    {passReqToCallback:true, usernameField:'email'}, async (req,username,password,done)=>{
+      console.log("entre a registerpasssport");
+      console.log(req.body);
+      const {first_name, last_name, email,age} = req.body;
+      try {
+        let user = await userModel.findOne({email:username});
+        if(user){
+          console.log("User already exist");
+          return done(null,false); // ya existe usuario no puedes conttinuar
+        }
+        const newUser = {
+          first_name,
+          last_name,
+          email,
+          age,
+          password: await createHashValue(password)
+        }
+        let result = await userModel.create(newUser);
+        return done(null,result);
+        
+      } catch (error) {
+        console.log("🚀 ~ file: passport.config.js:19 ~ {passReqtoCallback:true,usernameField:'email'}, ~ error:", error)
+        return done("Error al crear usuario:" + error)
+      }
+    }
+  ));
   passport.use(
     "github",
     new GithubStrategy(
